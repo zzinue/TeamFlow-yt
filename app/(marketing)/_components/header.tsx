@@ -109,7 +109,7 @@ export const HeroHeader = () => {
                                                 size: 'sm',
                                                 className: cn(isScrolled && 'lg:hidden'),
                                             })}>
-                                                Login2
+                                                Login
                                             </LoginLink>
 
 
@@ -124,8 +124,8 @@ export const HeroHeader = () => {
                                                     size: 'sm',
 
 
-                                                })}>Get 2
-                                                    Started 3</RegisterLink>
+                                                })}>Get
+                                                    Started </RegisterLink>
                                             </div>
 
                                         </>
