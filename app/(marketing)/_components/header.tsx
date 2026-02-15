@@ -125,7 +125,7 @@ export const HeroHeader = () => {
 
 
                                                 })}>Get
-                                                    Started</RegisterLink>
+                                                    Started 2</RegisterLink>
                                             </div>
 
                                         </>
