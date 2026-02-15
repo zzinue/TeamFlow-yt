@@ -127,7 +127,7 @@ export default function HeroSection() {
                                     delay={0.5}
                                     as="p"
                                     className="mx-auto mt-8 max-w-2xl text-balance text-lg">
-                                    Highly customizable components for building modern websites and applications that
+                                    Highly 2 customizable components for building modern websites and applications that
                                     look and feel the way you mean it.
                                 </TextEffect>
 

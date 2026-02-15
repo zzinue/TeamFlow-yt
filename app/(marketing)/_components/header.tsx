@@ -124,8 +124,8 @@ export const HeroHeader = () => {
                                                     size: 'sm',
 
 
-                                                })}>Get
-                                                    Started 2</RegisterLink>
+                                                })}>Get 2
+                                                    Started 3</RegisterLink>
                                             </div>
 
                                         </>
