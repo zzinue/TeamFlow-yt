@@ -11,9 +11,26 @@ import {
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import {Button} from "@/components/ui/button";
 import {Plus} from "lucide-react";
+import {useForm} from "react-hook-form";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {Input} from "@/components/ui/input";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {workSpaceSchema} from "@/app/schemas/workspace";
 
 export function CreateWorkspace() {
     const [open, setOpen] = useState(false)
+//define your form
+    const form = useForm({
+        resolver: zodResolver(workSpaceSchema),
+        defaultValues: {
+            name: "",
+        },
+    })
+
+    function onSubmit() {
+        console.log('data')
+    }
+
     return (
         <TooltipProvider>
             <div>
@@ -28,7 +45,7 @@ export function CreateWorkspace() {
                             </DialogTrigger>
                         </TooltipTrigger>
                         <TooltipContent side='right'>
-                            <p>Crate wordkspace</p>
+                            <p>Crate workspace</p>
                         </TooltipContent>
                     </Tooltip>
 
@@ -40,11 +57,24 @@ export function CreateWorkspace() {
                             </DialogDescription>
 
                         </DialogHeader>
+                        <Form {...form}>
+                            <form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
+                                <FormField control={form.control} name="name" render={({field}) => (
+                                    <FormItem>
+                                        <FormLabel>Name</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder='my workspace' {...field}/>
+                                        </FormControl>
+                                        <FormMessage/>
+                                    </FormItem>
+                                )}/>
+                                <Button type='submit'>Create Workspace</Button>
+                            </form>
+                        </Form>
                     </DialogContent>
                 </Dialog>
             </div>
         </TooltipProvider>
-
     );
 };
 
