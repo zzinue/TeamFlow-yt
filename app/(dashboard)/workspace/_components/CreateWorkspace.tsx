@@ -15,10 +15,14 @@ import {useForm} from "react-hook-form";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {workSpaceSchema} from "@/app/schemas/workspace";
+import {workSpaceSchema, WorkspaceSchemaType} from "@/app/schemas/workspace";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {orpc} from "@/lib/orpc";
+import {toast} from "sonner";
 
 export function CreateWorkspace() {
     const [open, setOpen] = useState(false)
+    const queryClient = useQueryClient()
 //define your form
     const form = useForm({
         resolver: zodResolver(workSpaceSchema),
@@ -27,8 +31,27 @@ export function CreateWorkspace() {
         },
     })
 
-    function onSubmit() {
+    const createWorkspaceMutation = useMutation(
+        orpc.workspace.create.mutationOptions({
+            onSuccess: (newWorkspace) => {
+                toast.success(`Workspace ${newWorkspace.workSpaceName} created successfully`)
+
+                queryClient.invalidateQueries({
+                    queryKey: orpc.workspace.list.queryKey(),
+                })
+
+                form.reset()
+                setOpen(false)
+            },
+            onError: () => {
+                toast.error(' FAILED TO CREATE WORKspace , try again !')
+            }
+        })
+    )
+
+    function onSubmit(values: WorkspaceSchemaType) {
         console.log('data')
+        createWorkspaceMutation.mutate(values)
     }
 
     return (
@@ -68,7 +91,8 @@ export function CreateWorkspace() {
                                         <FormMessage/>
                                     </FormItem>
                                 )}/>
-                                <Button type='submit'>Create Workspace</Button>
+                                <Button disabled={createWorkspaceMutation.isPending}
+                                        type='submit'>{createWorkspaceMutation.isPending ? 'Creating...' : 'Create workspace'}</Button>
                             </form>
                         </Form>
                     </DialogContent>
